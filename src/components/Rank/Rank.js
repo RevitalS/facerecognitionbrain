@@ -2,6 +2,14 @@ import React from 'react';
 
 
 const Rank = ({name, entries}) => {
+    console.log(name);
+    if (!name) {
+        return (
+        <div className='white f3'>
+            <h2> Hi Guest,</h2>
+        </div>
+        )
+    }
     return (
         <div>
             <div className='white f3'>
