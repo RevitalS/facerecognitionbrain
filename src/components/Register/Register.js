@@ -10,6 +10,13 @@ class Register extends React.Component{
             name:''
         }
     }
+
+     validateEmail(email) 
+    {
+        var re = /\S+@\S+.\S/;
+        return re.test(email);  
+    }
+
     onNameChange = (event) => {
         this.setState({name: event.target.value});
     }
@@ -23,7 +30,13 @@ class Register extends React.Component{
     }
 
     onSubmitSignIn =() => {
-        fetch('https://aqueous-mesa-81156.herokuapp.com/register', {
+        if (!this.state.email || ! this.state.name || ! this.state.password) {
+            alert(`You didn't fill all the info. Please try again`);
+        } 
+        if (!this.validateEmail(this.state.email)) {
+            alert('Your email is incorrect plase try again');
+        }
+        fetch(this.props.serverUrl + '/register', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -40,6 +53,8 @@ class Register extends React.Component{
             }
         })
     }    
+
+
 
     render() {
         return (

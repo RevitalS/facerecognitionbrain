@@ -10,8 +10,9 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 
 
 import './App.css';
-import { render } from 'react-dom';
+//import { render } from 'react-dom';
 
+const serverUrl =  'http://localhost:3000'; //'https://aqueous-mesa-81156.herokuapp.com';
 
 const particlesOptions = {
   particles:{
@@ -47,6 +48,7 @@ class App extends Component {
   }
 
   loadUser = (data) => {
+
     this.setState({user: {
       id: data.id,
       name: data.name,
@@ -61,7 +63,6 @@ class App extends Component {
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
-    console.log(width, height);
     return {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
@@ -79,9 +80,13 @@ class App extends Component {
   }
 
   onButtonSubmit = () => {
+    this.setState({box:{}});
     this.setState({imgUrl: this.state.input});
    // console.log(this.state.input, Clarifai.FACE_DETECTION_MODEL);
-    fetch('https://aqueous-mesa-81156.herokuapp.com/imageurl', {
+   if (!this.state.input) {
+     return;
+   }
+    fetch(serverUrl + '/imageurl', {
       method: 'post',
       headers: {'content-Type': 'application/json'},
       body: JSON.stringify({
@@ -91,20 +96,22 @@ class App extends Component {
     .then(response => response.json())
     .then(response =>  {
       if (response) {
-        fetch('https://aqueous-mesa-81156.herokuapp.com/image', {
-          method: 'put',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-              id: this.state.user.id
-          })
-      })
-      .then(response => response.json())
-      .then(count =>  {
-        this.setState(Object.assign(this.state.user, { entries: count }))
-        })
-      .catch(console.log, 'error get info from clarifai')
-    }
-      this.displayFaceBox(this.calculateFaceLocation(response))
+        if (Object.keys(response.outputs[0].data).length !== 0) {
+            fetch(serverUrl + '/image', {
+              method: 'put',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                  id: this.state.user.id
+                })
+            })
+          .then(response => response.json())
+          .then(count =>  {
+              this.setState(Object.assign(this.state.user, { entries: count }))
+            })
+          .catch(console.log, 'error get info from clarifai')
+          this.displayFaceBox(this.calculateFaceLocation(response))
+        }
+  }
     
   }).catch(err => console.log(err))
   }
@@ -136,8 +143,8 @@ class App extends Component {
         </div>
       : (
         route === 'signin' 
-        ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
-        : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+        ? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} serverUrl={serverUrl}/>
+        : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} serverUrl={serverUrl}/>
         )
       
       }

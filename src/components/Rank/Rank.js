@@ -2,21 +2,25 @@ import React from 'react';
 
 
 const Rank = ({name, entries}) => {
-    console.log(name);
-    if (!name) {
-        return (
-        <div className='white f3'>
-            <h2> Hi Guest,</h2>
-        </div>
-        )
-    }
     return (
         <div>
             <div className='white f3'>
-                {`${name} , your current entry count is...`}
+                {
+                    name === 'geust'
+                    ? 'Hi Geust, the current search count for all our geusts is'
+                    :`${name} , your current entry count is...`
+                }
+                
             </div>
             <div className='white f1'>
                 {entries}
+            </div>
+            <div className='white f4'>
+                {
+                    name === 'geust'
+                    ? 'Add your search'
+                    : ""
+                }
             </div>
             
         </div>

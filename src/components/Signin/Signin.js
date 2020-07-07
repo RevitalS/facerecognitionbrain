@@ -5,27 +5,40 @@ class Signin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            signInEmail:'',
-            signInPassword:''
+            email:'',
+            password:''
         }
     }
 
+    validateEmail(email) 
+    {
+        var re = /\S+@\S+.\S/;
+        return re.test(email);  
+    }
+
     onEmailChange = (event) => {
-        this.setState({signInEmail: event.target.value});
+        this.setState({email: event.target.value});
     }
 
 
     onPasswordChange = (event) => {
-        this.setState({signInPassword: event.target.value});
+        this.setState({password: event.target.value});
     }
 
     onSubmitSignIn =() => {
-        fetch('https://aqueous-mesa-81156.herokuapp.com/signin', {
+
+        if (!this.state.email || ! this.state.password) {
+            alert(`You didn't fill all the info. Please try again`);
+        } 
+        if (!this.validateEmail(this.state.email)) {
+            alert('Your email is incorrect plase try again');
+        }
+        fetch(this.props.serverUrl + '/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                email: this.state.signInEmail,
-                password: this.state.signInPassword
+                email: this.state.email,
+                password: this.state.password
             })
         })
         .then(response => response.json())
@@ -37,8 +50,28 @@ class Signin extends React.Component {
         })
     }
 
+    onGeustMode =() => {
+         this.setState({email: 'geust@geust.com'});
+         this.setState({password: 'geust'});
+        fetch(this.props.serverUrl + '/signin', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                email: 'geust@geust.com',
+                password: 'geust'
+            })
+        })
+        .then(response => response.json())
+        .then(user => {
+            if (user.id) {
+                this.props.loadUser(user);
+                this.props.onRouteChange('home');
+            }
+
+        })
+    }
+
     render() {
-        const {onRouteChange} = this.props;
         return (
             <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
                 <main className="pa4 black-80">
@@ -74,7 +107,7 @@ class Signin extends React.Component {
                             value="Sign in"/>
                         </div>
                         <div className="lh-copy mt3">
-                            <p onClick={() => onRouteChange('home')} className="f6 link dim black db pointer">Continue without signin</p>
+                            <p onClick={this.onGeustMode} className="f6 link dim black db pointer">Continue as a Geust</p>
                         </div>
                     </div>
                 </main>
