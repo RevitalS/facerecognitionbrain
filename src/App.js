@@ -12,7 +12,7 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import './App.css';
 //import { render } from 'react-dom';
 
-const serverUrl =  'http://localhost:3000'; //'https://aqueous-mesa-81156.herokuapp.com';
+const serverUrl =  /*'http://localhost:3000';*/ 'https://aqueous-mesa-81156.herokuapp.com';
 
 const particlesOptions = {
   particles:{
