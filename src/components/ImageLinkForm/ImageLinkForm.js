@@ -10,7 +10,7 @@ const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
             <p className='f5'>
                 {'Insert a picture link. For example:'}
             </p>
-            <a href='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSfXy0z0FtaFv5x0Ko1LYrvArpu5bMLRfTnRQ&usqp=CAU'>https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSfXy0z0FtaFv5x0Ko1LYrvArpu5bMLRfTnRQ&usqp=CAU</a>
+            <a href='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSfXy0z0FtaFv5x0Ko1LYrvArpu5bMLRfTnRQ&usqp=CAU' target='_blank' rel="noopener noreferrer" >https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSfXy0z0FtaFv5x0Ko1LYrvArpu5bMLRfTnRQ&usqp=CAU</a>
             <p/>
             <div className='center'>
                 <div className='form center pa4 br3 shadow-5'>
