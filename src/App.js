@@ -84,6 +84,7 @@ class App extends Component {
     this.setState({imgUrl: this.state.input});
    // console.log(this.state.input, Clarifai.FACE_DETECTION_MODEL);
    if (!this.state.input) {
+     alert('Please enter a link');
      return;
    }
     fetch(serverUrl + '/imageurl', {
@@ -113,7 +114,7 @@ class App extends Component {
         }
   }
     
-  }).catch(err => console.log(err))
+  }).catch(err => alert('Invalid link, please try a different one'))
   }
 
   onRouteChange = (route) => {
