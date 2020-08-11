@@ -1,4 +1,5 @@
-### Smart Brain will detect faces in your picture. Using React, Node.js, Express.js and PostgreSQL
+### Smart Brain will detect faces in your picture. This project is the frontend source of the projcet writen with React.
+[beckend soucre](https://github.com/RevitalS/smart-brain-api)
 
 
 
